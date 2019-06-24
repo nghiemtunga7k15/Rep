@@ -9,14 +9,15 @@
 <script>
   import Haeder from './components/Layout/Header.vue'
   import Footer from './components/Layout/Footer.vue'
-  import Main from './js/main.js'
+  import Main from './js/Main.js'
+  import Token from './js/Token.js'
 export default {
   components:{
     Haeder,
     Footer
   },
   mounted(){
-    this.setupContract();
+    this.init();
   },
   data () {
     return {
@@ -24,8 +25,16 @@ export default {
     }
   },
   methods:{
-    setupContract(){
+    init(){
+      let self = this;
+      this.setupContractMain();
+      this.setupContractToken();
+    },
+    setupContractMain(){
       Main.init(is_init=>{ })
+    },
+    setupContractToken(){
+      Token.init(is_init=>{ })
     }
   }
 }

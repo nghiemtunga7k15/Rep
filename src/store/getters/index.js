@@ -1,12 +1,16 @@
 import { 
 	listGame, 
 	idActive,
-	listZoom
+	listZoom,
+	listBuy,
+	tokenUser
 } from './dice.js'
 
 
 export default {
   listGame,
   idActive,
-  listZoom
+  listZoom,
+  listBuy,
+  tokenUser
 }

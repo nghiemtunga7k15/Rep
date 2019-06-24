@@ -7,3 +7,9 @@ export function idActive(state) {
 export function listZoom(state) {
 	return state.exchange.listZoom;
 }
+export function listBuy(state) {
+	return state.exchange.listBuy;
+}
+export function tokenUser(state) {
+	return state.exchange.tokenUser;
+}

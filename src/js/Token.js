@@ -1,6 +1,6 @@
 import TRONWEB from './tron-web.js'
-const Main = {
-	CONTRACT_ADDRESS:'TTvfPu4KPmsrzZt8arAikpeKKxw5WkKQ55',
+const Token = {
+	CONTRACT_ADDRESS:'TNdUNcySD9u2Fx5oAQxsiY2DpmcjXXe55a',
 	CONTRACT :null,
 	init(callback){
 		let self = this;
@@ -21,31 +21,21 @@ const Main = {
 	      }
 	    }
 	},
-	getCountZom(callback){
+	getTokens(callback){
 		this.CONTRACT
-		.getCountZom(TRONWEB.getAccount())
+		.balanceOf(TRONWEB.getAccount())
 		.call()
 		.then(response)
 		.catch(error)
 		function response(succes) {
-			return callback(null , succes);
+			let data = {
+				"balances" : succes.balance
+			}
+			return callback(null , data);
 		}
 		function error(e) {
 			return callback(e, null);
 		}
 	},
-	getZoomPlay(id,callback){
-		this.CONTRACT
-		.RoomPlay(TRONWEB.getAccount(),id)
-		.call()
-		.then(response)
-		.catch(error)
-		function response(succes) {
-			return callback(null , succes);
-		}
-		function error(e) {
-			return callback(e, null);
-		}
-	}
 }
-export default Main;
+export default Token;

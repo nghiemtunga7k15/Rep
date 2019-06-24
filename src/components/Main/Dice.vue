@@ -1,29 +1,5 @@
 <template>
   <b-container fluid>
-    <!-- <b-row>
-      <b-col cols="3">
-        <b-list-group v-b-scrollspy:listgroup-ex >
-        <b-list-group>
-          <div v-for="item in listGame" @click="setValue(item.id)">
-          <b-list-group-item v-bind:href="'#list-item-'+item.id"><span >Item {{item.id}}</span></b-list-group-item>
-            
-          </div>
-        </b-list-group>
-      </b-col>
-
-      <b-col cols="9">
-        <div id="listgroup-ex" style="position:relative; overflow-y:auto; height: 170px" >
-          <div v-for="item in listGame">
-              <h4 v-bind:id="'list-item-'+item.id">Item {{item.id}}</h4>
-              <p>{{ text }}</p>
-          </div>
-        </div>
-        <b-jumbotron>
-          <p>{{listGame[idActive].name}}</p>
-          <b-button variant="primary" href="#">More Info</b-button>
-        </b-jumbotron>
-      </b-col>
-    </b-row>  -->
     <div>
           <b-tabs >
             <b-tab title="This is Market" active>
@@ -51,74 +27,97 @@
           </b-tabs>
     </div>
   
-        <br>
-          <div>
-             <b-form-select  v-model="demo" :options="listCoin" size="sm" class="mt-3"></b-form-select>
-          </div>
-        <br>
-    <div>
-      <b-input-group
-        v-for="size in ['sm']"
-        :key="size"
-        :size="size"
-        class="mb-3"
-        prepend="Coin"
-      >
-
-        <input type="" v-model="demo + ' ' +listGame[idActive].nameToken" name="">
-        <b-input-group-append>
-          <b-button size="sm" text="Button" variant="success" @click="demos">Betting</b-button>
-        </b-input-group-append>
-      </b-input-group>
-
-      <div v-for="item in listZoom">
-        <p>ok</p>
-      </div>
-</div>
+<br>
+      <b-row>
+          <b-col cols="3">
+              <b-list-group v-for="item in listZoom">
+                <b-list-group-item>{{item.name}}</b-list-group-item>
+              </b-list-group>
+          </b-col>
+          <b-col>
+            <div>
+              <b-row>
+                  <b-col> 
+                      <span style="font-weight: bold">Token</span> : {{listGame[idActive].nameToken}}
+                  </b-col>
+                  <b-col> 
+                      <span style="font-weight: bold">Zoom</span> : {{listGame[idActive].nameToken}}
+                  </b-col>
+                  <b-col> 
+                      <span style="font-weight: bold">Amount Player</span> : {{listGame[idActive].nameToken}}
+                  </b-col>
+                  <b-col> 
+                      <span style="font-weight: bold">Amoutn Token</span> : {{tokenUser}}
+                  </b-col>
+              </b-row>
+              <b-form-group label="Entern Token">
+                <b-form-select  v-model="token" :options="listToken" size="sm" class="mt-3"></b-form-select>
+              </b-form-group>
+               <b-button v-if="tokenUser == 10000 " @click="modalShow = !modalShow">Exchange Tokens</b-button>
+    
+                <b-modal v-model="modalShow" hide-footer>
+                  <b-form-group
+                    :state="nameState"
+                    label="Tokens">
+                      <div>
+                        <b-form-input v-model="token" placeholder="Enter Token Want Buy" type="number"></b-form-input>
+                      </div>
+                      <br>
+                      <div>
+                        <b-button class="btn-lock " style="width: 100% !important" @click="buy" >Buy</b-button>
+                      </div>
+                  </b-form-group>
+                </b-modal>
+            </div>
+          </b-col>
+      </b-row>
   </b-container>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
-  import Main from './../../js/main.js'
+  import Main from './../../js/Main.js'
+  import Token from './../../js/Token.js'
+  import MYTronWeb from './../../js/tron-web.js'
   export default {
     computed: {
         ...mapGetters([
             'listGame',
             'idActive',
-            'listZoom'
+            'listZoom',
+            'tokenUser'
         ])
     },
     data() {
       return {
-        // text: `
-        //   Quis magna Lorem anim amet ipsum do mollit sit cillum voluptate ex nulla
-        //   tempor. Laborum consequat non elit enim exercitation cillum aliqua
-        //   consequat id aliqua. Esse ex consectetur mollit voluptate est in duis
-        //   laboris ad sit ipsum anim Lorem. Incididunt veniam velit elit elit veniam
-        //   Lorem aliqua quis ullamco deserunt sit enim elit aliqua esse irure. Laborum
-        //   nisi sit est tempor laborum mollit labore officia laborum excepteur
-        //   commodo non commodo dolor excepteur commodo. Ipsum fugiat ex est consectetur
-        //   ipsum commodo tempor sunt in proident.
-        // `,
-        demo:0,
-        listCoin:[0,10,20,30]
+        coin:0,
+        token:'',
+        listToken:[0,1,2,3,4,5],
+        modalShow: false
       }
     },
     mounted(){
-      this.showInfo();
+      this.loadData();
       this.onExchangeIdActiveChange();
     },
     methods:{
       ...mapActions([
           'SET_ID_ACTIVE',
           'SET_GAME_LIST_SHOW',
-          'SET_ZOOM_LIST_SHOW'
+          'SET_ZOOM_LIST_SHOW',
+          'SET_TOKEN'
       ]),
       loadData(){
         let self = this;
-        // if(!Main.CONTRACT)
-      }
+        if(!Main.CONTRACT && !Token.CONTRACT){
+          return setTimeout(function(){
+              self.loadData();
+          },1000)
+        }
+        self.onExchangeIdActiveChange();
+        self.loadZoom();
+        self.loadToken();
+      },
       onExchangeIdActiveChange() {
         this.$store.watch(
           (state)=>{
@@ -127,6 +126,7 @@
           (val)=>{
            //something changed do something
             this.showInfo();
+            this.loadZoom();
           },
           {
             deep:true
@@ -144,9 +144,10 @@
         var n = num.toFixed(2);
         return n;
       },
-      demos(){
+      loadZoom(){
         let self = this;
-         Main.getCountZom(function(err , success){
+        let add = self.listGame[self.idActive].addressStoreToken;
+         Main.getCountZom(add,function(err , success){
             if(err){
               console.log(err)
             }else{
@@ -154,8 +155,8 @@
                 self.SET_ZOOM_LIST_SHOW([]);
               }else{
                 let promise = [];
-                for (let idx = 0; idx < success ; idx++) {
-                    promise.push(self.getZoom(idx));
+                for (let idx = 1; idx <= success ; idx++) {
+                    promise.push(self.getZoom(add,idx));
                 }
                 Promise
                 .all(promise)
@@ -166,9 +167,9 @@
             }
          })
       },
-      getZoom(id){
+      getZoom(add,id){
         return new Promise((resolve,reject)=>{
-              Main.getZoomPlay(id,function(err,success){
+              Main.getZoomPlay(add,id,function(err,success){
                 if(err){
                   return  reject(err);
                 }else{
@@ -176,9 +177,21 @@
                 }
               })
         })
+      },
+      buy(){
+        let self = this;
+        let addrToken = self.listGame[self.idActive].addressStoreToken;
+        Main.changeToken(addrToken , MYTronWeb.getAccount(), self.token)
+      },
+      loadToken(){
+        let self = this;
+        Token.getTokens(function(err,success){
+          if(err){
+            console.log(err);
+          }
+            self.SET_TOKEN(success.balances)
+        })
       }
-
-
     }
   }
 </script>

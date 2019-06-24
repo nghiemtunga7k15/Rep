@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity >=0.4.23 <0.6.0;
 contract ERC20Interface {
     function totalSupply() public view returns (uint);
     function balanceOf(address tokenOwner) public view returns (uint balance);
@@ -26,7 +26,7 @@ contract Token is ERC20Interface{
 
     constructor () public {
     	owner = msg.sender;
-    	balances[owner] = 10000000;
+    	balances[owner] = 10000;
     }
 
     modifier onlyOwner(){
@@ -62,7 +62,9 @@ contract Token is ERC20Interface{
     }
 
     function transfer(address to, uint tokens) public returns (bool success){
-
+            if(balances[msg.sender]< 0 ){ revert();}
+            balances[msg.sender] = balances[msg.sender] - tokens;
+            balances[to] = balances[to] + tokens;
     }
 
     function approve(address spender, uint tokens) public returns (bool success){
@@ -72,6 +74,8 @@ contract Token is ERC20Interface{
 
     function transferFrom(address from, address to, uint tokens) public returns (bool success){
             if(allowed[from][to] < tokens) { revert(); }
+            if (to == address(0)) revert();  
+            if (tokens <= 0) revert();
             balances[from] = balances[from] - tokens;
             balances[to] = balances[to] + tokens;
             allowed[from][to] = allowed[from][to] - tokens;

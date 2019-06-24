@@ -4,6 +4,7 @@
 
 <script>
 import DiceView from './../../view/Dice' 
+
 export default {
   components:{
     DiceView

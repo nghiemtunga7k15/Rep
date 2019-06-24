@@ -1,7 +1,7 @@
 <template>
   <div id="header">
       <b-navbar toggleable="lg" type="dark" variant="info">
-			    <b-navbar-brand href="#">{{$t('message.dice')}}</b-navbar-brand>
+			    <b-navbar-brand href="/">{{$t('message.dice')}}</b-navbar-brand>
 
 			    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -29,6 +29,7 @@
 			          <b-dropdown-item href="#">Profile</b-dropdown-item>
 			          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
 			        </b-nav-item-dropdown>
+			        <b-nav-item href="/user">Admin</b-nav-item>
 			      </b-navbar-nav>
 			    </b-collapse>
   	</b-navbar>
