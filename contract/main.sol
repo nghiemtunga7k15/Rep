@@ -1,7 +1,9 @@
 pragma solidity >=0.4.23 <0.6.0;
 contract StoreTokenInterface {
 	function isStoreTokenContract() external pure returns(bool);
-	function transferFrom(address from, address to, uint tokens) external pure returns(bool);
+	function transferFrom(address from, address to, uint256 tokens) external pure returns(bool);
+	function transfer(address to, uint256 tokens) external pure returns(bool);
+	function demo(uint256 num) external pure returns(uint256);
 }
 contract Main {
 	address public owner;
@@ -32,6 +34,7 @@ contract Main {
 	struct Buy {
 		address buyer;
 		uint256 tokens;
+		bool isActive;
 	}
 
 	constructor () public {
@@ -50,7 +53,7 @@ contract Main {
 		succes = true;
 	}
 
-	function setStoreToken(address _addrStoreToken , address _addrToken , string memory _name ) public isOwner returns(bool succes){
+	function setStoreToken( address _addrToken ,address _addrStoreToken, string memory _name ) public isOwner returns(bool succes){
 		StoreTokenContract = StoreTokenInterface(_addrStoreToken);
 		if(StoreTokenContract.isStoreTokenContract() == false) { revert(); }
 		MainToken[_addrToken].isActive           = true;
@@ -84,10 +87,23 @@ contract Main {
 		arrRequest[_addrtoken].push(countRequest[_addrtoken]);
 		listRequest[_addrtoken][countRequest[_addrtoken]].buyer = _addrBuyer;
 		listRequest[_addrtoken][countRequest[_addrtoken]].tokens = _token;
+		listRequest[_addrtoken][countRequest[_addrtoken]].isActive = true;
 		succes = true;
 	}
 
 	function getCountBuy(address _addrToken) public view returns(uint256){
 		return arrRequest[_addrToken].length;
 	}	
+
+	// function sell(address _addrtoken ,address from, address to, uint256 tokens) public returns(bool succes){
+	// 	StoreToken storage token = MainToken[_addrtoken];
+	// 	token.addressStoreToken.transferFrom(from , to , tokens);
+	// 	succes  = true;
+	// }
+	function sell(address _addrtoken ,uint256 num) public returns(uint256 succes){
+		StoreToken storage token = MainToken[_addrtoken];
+	succes = 	token.addressStoreToken.demo(num);
+		// succes  = true;
+	}
+
 }	

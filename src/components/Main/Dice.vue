@@ -57,7 +57,6 @@
     
                 <b-modal v-model="modalShow" hide-footer>
                   <b-form-group
-                    :state="nameState"
                     label="Tokens">
                       <div>
                         <b-form-input v-model="token" placeholder="Enter Token Want Buy" type="number"></b-form-input>

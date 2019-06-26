@@ -1,6 +1,6 @@
 import TRONWEB from './tron-web.js'
 const Main = {
-	CONTRACT_ADDRESS:'TDJFzpUD1ZbKNP6c9YN7s7nQ3HGBPpJYJo',
+	CONTRACT_ADDRESS:'TPz8cQaCrBcs165ppC8ozZ6nokn7uWDr2L',
 	CONTRACT :null,
 	init(callback){
 		let self = this;

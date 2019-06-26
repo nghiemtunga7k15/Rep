@@ -17,7 +17,9 @@ export default {
     Footer
   },
   mounted(){
-    this.init();
+    setTimeout(() => {
+          this.init()
+    }, 1000)
   },
   data () {
     return {

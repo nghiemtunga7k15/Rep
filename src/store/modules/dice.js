@@ -1,8 +1,8 @@
 const Dice = {
   state: {
     listGame:  [
-    	{nameToken:'ETH',id:0,change:-1.78,exchange:0.09,addressStoreToken:'TRkZ9FFAsQW2fZGhrthwUY4aAz5UZQ1TAc'},
-    	{nameToken:'BTC',id:1,change:1,exchange:0.008,addressStoreToken:'TDJFzpUD1ZbKNP6c9YN7s7nQ3HGBPpJYJo'},
+    	{nameToken:'ETH',id:0,change:-1.78,exchange:0.09,addToken:'TVZS1tUfS1a2Q9oer6mjP6dtFXk86VHN8D',addressStoreToken:'TSeCdM4Tq1tZTga73ktMaPn9To9j3SKDms'},
+    	{nameToken:'BTC',id:1,change:1,exchange:0.008,addToken:'TDJFzpUD1ZbKNP6c9YN7s7nQ3HGBPpJYJo',addressStoreToken:'TVZS1tUfS1a2Q9oer6mjP6dtFXk86VHN8D'},
     ],
     idActive:0,
     listZoom:[],
