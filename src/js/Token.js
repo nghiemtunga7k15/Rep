@@ -1,6 +1,6 @@
 import TRONWEB from './tron-web.js'
 const Token = {
-	CONTRACT_ADDRESS:'TNdUNcySD9u2Fx5oAQxsiY2DpmcjXXe55a',
+	CONTRACT_ADDRESS:'TL9kS9Jzm35NZcb7vL1eEEHYBrsvmckJe3',
 	CONTRACT :null,
 	init(callback){
 		let self = this;

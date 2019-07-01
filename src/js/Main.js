@@ -1,6 +1,6 @@
 import TRONWEB from './tron-web.js'
 const Main = {
-	CONTRACT_ADDRESS:'TPz8cQaCrBcs165ppC8ozZ6nokn7uWDr2L',
+	CONTRACT_ADDRESS:'TVZBt4KaM2UTwAbeY4jV3HoxNivRbaZ8ch',
 	CONTRACT :null,
 	init(callback){
 		let self = this;
@@ -67,7 +67,11 @@ const Main = {
 			.then(response)
 			.catch(error)
 		function response(succes) {
-			return callback(null , succes);
+			let data = {
+				"traderAddr": TRONWEB.toAddress(succes.buyer), 
+				"tokens": parseInt(succes.tokens), 
+			}
+			return callback(null , data);
 		}
 		function error(e) {
 			return callback(e, null);
@@ -75,6 +79,9 @@ const Main = {
 	},
 	changeToken(addressToken,addressBuyer , tokens){
 		this.CONTRACT.changeToken(addressToken,addressBuyer,tokens).send()
+	},
+	sell( _addrtoken, from  , to, tokens){
+		this.CONTRACT.sell(_addrtoken ,from, to ,tokens ).send();
 	}
 }
 export default Main;

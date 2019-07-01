@@ -74,9 +74,10 @@ contract Token is ERC20Interface{
     }
 
     function transferFrom(address from, address to, uint tokens) public returns (bool success){
-            // if(allowed[from][to] < tokens) { revert(); }
-            if (to == address(0)) revert();  
-            if (tokens <= 0) revert();
+            if(allowed[from][to] < tokens) { revert(); }
+            // if (to == address(0)) {revert();}
+            if (tokens <= 0) {revert();}
+            if(balances[from]  < tokens) {revert();}
             balances[from] = balances[from] - tokens;
             balances[to] = balances[to] + tokens;
             allowed[from][to] = allowed[from][to] - tokens;

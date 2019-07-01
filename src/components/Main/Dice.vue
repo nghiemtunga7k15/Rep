@@ -1,33 +1,5 @@
 <template>
   <b-container fluid>
-    <div>
-          <b-tabs >
-            <b-tab title="This is Market" active>
-                <div>
-                  <table style="width:100%">
-                    <tr>
-                      <th style="color: #999;font-weight: normal;line-height: 1;">Cặp</th>
-                      <th style="color: #999;font-weight: normal;line-height: 1;">Coin Name</th>
-                      <th style="color: #999;font-weight: normal;line-height: 1;">Thay đổi gần nhất 24h </th> 
-                      <th style="color: #999;font-weight: normal;line-height: 1;">Giá cao nhất 24h</th>
-                      <th style="color: #999;font-weight: normal;line-height: 1;">Khối lượng giao dịch</th>
-                    </tr>
-                    <tr  v-for="item in listGame" style="cursor: pointer;" @click="setValue(item.id)">
-                      <td>{{item.nameToken}}/<span style="color: rgb(112, 168, 0);">ETH</span></td>
-                      <td>{{item.nameToken}}</td>
-                      <td :class="{ actives: (item.change  < 0.009), text: (item.change > 0.009 ) }">{{(item.exchange)}}/{{item.nameToken}} </td>
-                      <td :class="{ actives: (item.change  < 0), text: (item.change  > 0 ) }">{{convert(item.change)}} %</td> 
-                      <td>10000 Transactions</td>
-                    </tr>
-                  </table>
-                </div>
-            </b-tab>
-            <b-tab title="This is Page 1"><p>I'm the second tab</p></b-tab>
-            <b-tab title="This is Page 2"><p>I'm a disabled tab!</p></b-tab>
-          </b-tabs>
-    </div>
-  
-<br>
       <b-row>
           <b-col cols="3">
               <b-list-group v-for="item in listZoom">
@@ -53,7 +25,7 @@
               <b-form-group label="Entern Token">
                 <b-form-select  v-model="token" :options="listToken" size="sm" class="mt-3"></b-form-select>
               </b-form-group>
-               <b-button v-if="tokenUser == 10000 " @click="modalShow = !modalShow">Exchange Tokens</b-button>
+               <b-button v-if="tokenUser == 0 " @click="modalShow = !modalShow">Exchange Tokens</b-button>
     
                 <b-modal v-model="modalShow" hide-footer>
                   <b-form-group
@@ -96,6 +68,7 @@
       }
     },
     mounted(){
+      this.SET_ID_ACTIVE(this.$route.query.id)
       this.loadData();
       this.onExchangeIdActiveChange();
     },
@@ -124,24 +97,12 @@
           },
           (val)=>{
            //something changed do something
-            this.showInfo();
             this.loadZoom();
           },
           {
             deep:true
           }
         ); 
-      },
-      setValue(val){
-        this.SET_ID_ACTIVE(val);
-      },
-      showInfo(){
-          // console.log(this.listGame[this.idActive])
-      },
-      convert(val){
-        var num = val;
-        var n = num.toFixed(2);
-        return n;
       },
       loadZoom(){
         let self = this;

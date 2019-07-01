@@ -24,9 +24,9 @@
                   </tr>
                   <tr v-for="item in listBuy">
                     <td>#</td>
-                    <td>{{item.buyer}}</td> 
+                    <td>{{item.traderAddr}}</td> 
                     <td>{{item.tokens}}</td>
-                    <td><b-button variant="outline-primary" @click="buy(item.buyer, item.tokens)">Buy</b-button></td>
+                    <td><b-button variant="outline-primary" @click="buy(item.traderAddr, item.tokens)">Buy</b-button></td>
                   </tr>
                 </table>    
             </b-col> 
@@ -58,11 +58,40 @@ export default {
           'SET_ID_ACTIVE',
           'SET_BUY_LIST_SHOW'
     ]),
+    loadData(){
+        let self = this;
+        if(!Main.CONTRACT){
+          return setTimeout(function(){
+              self.loadData();
+          },1000)
+        }
+        this.loadRequest();
+    },
     setValue(val){
         this.SET_ID_ACTIVE(val);
       },
     buy(address, tokens){
-        Main.changeToken(address , tokens);
+        let self = this;
+        let tokenAddr = self.listGame[self.idActive].addToken;
+        // let addressStoreToken = self.listGame[self.idActive].addressStoreToken;
+        initTokenContract();
+        function initTokenContract() {
+          tronWeb
+            .contract()
+            .at(tokenAddr)
+            .then(approveTokens)
+            .catch(err);
+        }
+        function approveTokens(contract){
+            // contract.approve(address , tronWeb.toHex(tokens * (10 ** 18))).send().then(()=>{
+            contract.approve(address , tokens ).send().then(()=>{
+              Main.sell(tokenAddr , 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY' ,address ,tokens);            
+            })
+            .catch(e => console.log(e));
+        }
+        function err(e) { 
+          return console.log(e); 
+        } 
     },
     convert(val){
         var num = val;
@@ -110,7 +139,7 @@ export default {
                   })            
           }
         })
-      }
+    }
   }
 }
 </script>

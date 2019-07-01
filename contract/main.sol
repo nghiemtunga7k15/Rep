@@ -5,10 +5,14 @@ contract StoreTokenInterface {
 	function transfer(address to, uint256 tokens) external pure returns(bool);
 	function demo(uint256 num) external pure returns(uint256);
 }
+contract TokenInterface {
+	function isTokenContract()  external pure returns(bool);
+	function transferFrom(address from, address to, uint tokens) external returns (bool success);
+}
 contract Main {
 	address public owner;
 	bool public isActive = false;
-
+	TokenInterface public tokenContract;
 	StoreTokenInterface public StoreTokenContract;
 
 	mapping(address => StoreToken) public MainToken;
@@ -24,6 +28,7 @@ contract Main {
 		string tokenName;
 		address addressToken;
 		StoreTokenInterface addressStoreToken;
+		TokenInterface addressTokenContract;
 	}
 
 	struct Room {
@@ -55,11 +60,14 @@ contract Main {
 
 	function setStoreToken( address _addrToken ,address _addrStoreToken, string memory _name ) public isOwner returns(bool succes){
 		StoreTokenContract = StoreTokenInterface(_addrStoreToken);
+		tokenContract = TokenInterface(_addrToken);
 		if(StoreTokenContract.isStoreTokenContract() == false) { revert(); }
+		if(tokenContract.isTokenContract() == false) { revert(); }
 		MainToken[_addrToken].isActive           = true;
 		MainToken[_addrToken].tokenName          = _name;
 		MainToken[_addrToken].addressToken       = _addrToken;
 		MainToken[_addrToken].addressStoreToken  = StoreTokenContract;
+		MainToken[_addrToken].addressTokenContract  = tokenContract;
 		succes = true;
 	}
 
@@ -95,15 +103,9 @@ contract Main {
 		return arrRequest[_addrToken].length;
 	}	
 
-	// function sell(address _addrtoken ,address from, address to, uint256 tokens) public returns(bool succes){
-	// 	StoreToken storage token = MainToken[_addrtoken];
-	// 	token.addressStoreToken.transferFrom(from , to , tokens);
-	// 	succes  = true;
-	// }
-	function sell(address _addrtoken ,uint256 num) public returns(uint256 succes){
+	function sell(address _addrtoken,address from  ,address to,uint256 tokens) public returns(bool succes){
 		StoreToken storage token = MainToken[_addrtoken];
-	succes = 	token.addressStoreToken.demo(num);
-		// succes  = true;
+	 	token.addressTokenContract.transferFrom(from,to ,tokens);
+	 	succes = true;
 	}
-
 }	

@@ -37,8 +37,8 @@ contract StoreToken{
 		success = true;
 	}
 
-	function demo(uint256 num) public view returns(uint256){
-		return num;
-	} 
 	
+
+
+
 }	
