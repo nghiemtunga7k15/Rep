@@ -11,6 +11,7 @@
   import Footer from './components/Layout/Footer.vue'
   import Main from './js/Main.js'
   import Token from './js/Token.js'
+  import Trade from './js/Trade.js'
 export default {
   components:{
     Haeder,
@@ -31,12 +32,16 @@ export default {
       let self = this;
       this.setupContractMain();
       this.setupContractToken();
+      this.setupContractTrade();
     },
     setupContractMain(){
       Main.init(is_init=>{ })
     },
     setupContractToken(){
       Token.init(is_init=>{ })
+    }, 
+    setupContractTrade(){
+      Trade.init(is_init=>{ })
     }
   }
 }
