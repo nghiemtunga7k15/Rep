@@ -3,7 +3,10 @@ import {
 	idActive,
 	listZoom,
 	listBuy,
-	tokenUser
+	tokenUser,
+	listBuyToken,
+	listSellToken,
+	orderHistory
 } from './dice.js'
 
 
@@ -12,5 +15,8 @@ export default {
   idActive,
   listZoom,
   listBuy,
-  tokenUser
+  tokenUser,
+  listBuyToken,
+  listSellToken,
+  orderHistory
 }

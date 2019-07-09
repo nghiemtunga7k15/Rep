@@ -57,7 +57,7 @@
           'SET_TOKEN'
       ]),
       redirectToGame(tradeId){
-          this.$router.push({name:'dice', query: { id: tradeId }});
+          this.$router.push({name:'trade', query: { id: tradeId }});
       },
       loadData(){
         let self = this;

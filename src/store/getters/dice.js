@@ -13,3 +13,12 @@ export function listBuy(state) {
 export function tokenUser(state) {
 	return state.exchange.tokenUser;
 }
+export function listBuyToken(state) {
+	return state.exchange.listBuyToken;
+}
+export function listSellToken(state) {
+	return state.exchange.listSellToken;
+}
+export function orderHistory(state) {
+	return state.exchange.orderHistory;
+}

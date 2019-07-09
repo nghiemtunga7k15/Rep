@@ -8,6 +8,9 @@ const Dice = {
     listZoom:[],
     listBuy:[],
     tokenUser:0,
+    listBuyToken:[],
+    listSellToken:[],
+    orderHistory:[],
   },
   mutations: {
     SET_ID: ( state, idActive )                            => state.idActive          =  idActive,
@@ -15,6 +18,9 @@ const Dice = {
     SET_ZOOM_LIST: ( state, listZoom )                     => state.listZoom          =  listZoom,
     SET_BUY_LIST: ( state, listBuy )                     => state.listBuy          =  listBuy,
     SET_TOKEN_USER: ( state, tokenUser )                     => state.tokenUser          =  tokenUser,
+    SET_LIST_BUY_TOKEN: ( state, listBuyToken )                     => state.listBuyToken          =  listBuyToken,
+    SET_LIST_SELL_TOKEN: ( state, listSellToken )                     => state.listSellToken          =  listSellToken,
+    SET_LIST_OEDER_HISTORY: ( state, orderHistory )                     => state.orderHistory          =  orderHistory,
   },
   actions: {
  	  SET_ID_ACTIVE({ commit }, idActive) {
@@ -31,6 +37,15 @@ const Dice = {
     },
     SET_TOKEN({ commit }, tokenUser) {
       commit('SET_TOKEN_USER', tokenUser);
+    },
+    Set_List_Buy_Token({ commit }, listBuyToken) {
+      commit('SET_LIST_BUY_TOKEN', listBuyToken);
+    },
+    Set_List_Sell_Token({ commit }, listSellToken) {
+      commit('SET_LIST_SELL_TOKEN', listSellToken);
+    },
+    Set_List_History({ commit }, orderHistory) {
+      commit('SET_LIST_OEDER_HISTORY', orderHistory);
     },
   }
 }
